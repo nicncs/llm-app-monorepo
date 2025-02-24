@@ -2,6 +2,8 @@
 **/.terraform/*
 # Terraform provider binaries
 **/.terraform/providers/**
+# Import files
+**/import.tf
 
 # .tfstate files
 *.tfstate
