@@ -33,11 +33,17 @@ variable "llm_app_vsw_az2_cidr" {
   default     = "10.0.2.0/24"
 }
 
-/*
+
 # ACK Configuration
 variable "k8s_cluster_name" {
   description = "The name of the Kubernetes cluster"
   default     = "llm-app-k8s"
+}
+
+variable "k8s_master_instance_types" {
+  description = "The instance types of master nodes"
+  type        = list(string)
+  default     = ["ecs.t6-c1m2.large", "ecs.t6-c1m2.large", "ecs.t6-c1m2.large"]  # 2 vCPU, 4 GiB RAM - Burstable instance type
 }
 
 variable "k8s_worker_instance_types" {
@@ -61,4 +67,3 @@ variable "k8s_service_cidr" {
   description = "The CIDR block for services"
   default     = "172.19.0.0/20"
 }
-*/

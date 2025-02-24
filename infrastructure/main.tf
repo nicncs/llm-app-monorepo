@@ -24,10 +24,10 @@ resource "alicloud_vswitch" "vsw_az2" {
   depends_on = [alicloud_vpc.vpc]
 }
 
-/*
+
 # Create security group for K8s cluster
 resource "alicloud_security_group" "k8s_sg" {
-  security_group_name = "llm-app-k8s-sg"
+  security_group_name        = "llm-app-k8s-sg"
   description = "Security group for Kubernetes cluster"
   vpc_id      = alicloud_vpc.vpc.id
 }
@@ -56,35 +56,30 @@ resource "alicloud_security_group_rule" "allow_internal_inbound" {
   cidr_ip           = var.llm_app_vpc_cidr
 }
 
-# Create ACK Managed Kubernetes Cluster
+# Create Managed Kubernetes Cluster
 resource "alicloud_cs_managed_kubernetes" "k8s_cluster" {
   name                  = var.k8s_cluster_name
-  version              = "1.24.6"
-  vswitch_ids          = [alicloud_vswitch.vsw_az1.id]  # Using only one AZ to minimize costs
+  version              = "1.32.1-aliyun.1"
+  vswitch_ids          = [alicloud_vswitch.vsw_az1.id]
   pod_cidr             = var.k8s_pod_cidr
   service_cidr         = var.k8s_service_cidr
-  
-  # Disable features to minimize costs
-  new_nat_gateway      = false
-  slb_internet_enabled = false
-  
-  # Security settings
   security_group_id    = alicloud_security_group.k8s_sg.id
+  
+  # Required settings
+  cluster_spec         = "ack.standard"  # Standard managed clusters.
+  new_nat_gateway      = false  # Explicitly disable NAT gateway creation
+  proxy_mode           = "ipvs"
+  timezone             = "Asia/Kuala_Lumpur"
 }
 
-# Create a node pool for the kubernetes cluster
-resource "alicloud_cs_kubernetes_node_pool" "default_node_pool" {
+# Create node pool for worker nodes
+resource "alicloud_cs_kubernetes_node_pool" "default" {
   cluster_id          = alicloud_cs_managed_kubernetes.k8s_cluster.id
-  node_pool_name      = "default-node-pool"
+  node_pool_name      = "default-pool"
   vswitch_ids         = [alicloud_vswitch.vsw_az1.id]
   instance_types      = var.k8s_worker_instance_types
-  desired_size        = var.k8s_worker_number
-  
-  # You might want to add these optional configurations
   system_disk_category = "cloud_efficiency"
   system_disk_size     = 40
-  
-  # Reference the same security group as the cluster
-  security_group_ids    = [alicloud_security_group.k8s_sg.id]
+  instance_charge_type = "PostPaid"
+  desired_size        = var.k8s_worker_number
 }
-*/
