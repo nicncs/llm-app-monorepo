@@ -30,3 +30,19 @@ output "availability_zones" {
   ]
 }
 
+/*
+output "kubernetes_cluster_id" {
+  description = "The ID of the Kubernetes cluster"
+  value       = alicloud_cs_managed_kubernetes.k8s_cluster.id
+}
+
+output "kubernetes_cluster_name" {
+  description = "The name of the Kubernetes cluster"
+  value       = alicloud_cs_managed_kubernetes.k8s_cluster.name
+}
+
+output "security_group_id" {
+  description = "The ID of the security group"
+  value       = alicloud_security_group.k8s_sg.id
+}
+*/
