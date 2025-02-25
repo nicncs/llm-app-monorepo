@@ -7,6 +7,9 @@ llm-app-monorepo/
     ├── main.tf
     ├── variables.tf
     └── outputs.tf
+    └── providers.tf
+    └── import.tf (optional)
+
 ```
 
 ### AliCloud Infrastructure Config
