@@ -3,14 +3,19 @@
 ### Architecture
 ```
 llm-app-monorepo/
-└── infrastructure/
+└── infrastructure/  (Alibaba Cloud Infrastructure as Code)
     ├── main.tf
     ├── variables.tf
     └── outputs.tf
     └── providers.tf
     └── import.tf (optional)
+└── kubernetes/  (Local k3d Resources)
+    └── local/ 
+    └── base/
 
 ```
+
+### --------
 
 ### AliCloud Infrastructure Config
 
@@ -25,6 +30,7 @@ Assumes you have terraform installed and necessary Alicloud roles and permission
 
 ```bash
 terraform init
+terraform validate
 terraform plan
 terraform apply
 ```
